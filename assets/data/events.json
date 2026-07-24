@@ -1,0 +1,289 @@
+[
+    {
+        "id": 1,
+        "user_id": 10,
+        "category": "member of sport",
+        "name": "Padel Championship 2026",
+        "tagline": "Compete with the Best",
+        "description": "Join the biggest padel tournament of the year. Compete against top talent and win exciting prizes.",
+        "announcement": "Registrations close soon! Team up now.",
+        "image_url": "assets/images/padel-assets-a.jpg",
+        "location": "Jakarta Padel Club",
+        "location_details": {
+            "street": "Jl. Jend. Sudirman No. 1",
+            "city": "Jakarta",
+            "province": "Jakarta",
+            "country": "Indonesia"
+        },
+        "start_date": "2026-06-10T09:00:00Z",
+        "end_date": "2026-06-10T17:00:00Z",
+        "timezone": "Asia/Jakarta",
+        "is_free": false,
+        "is_following": true,
+        "is_hosting": true,
+        "price": 200000.0,
+        "participant_capacity": 200,
+        "available_languages": [
+            "English",
+            "Bahasa Indonesia"
+        ]
+    },
+    {
+        "id": 2,
+        "user_id": 11,
+        "category": "yoga class",
+        "name": "Morning Yoga Flow",
+        "tagline": "Breathe & Stretch",
+        "description": "A rejuvenating morning yoga flow to energize your mind and body. Open for all skill levels from beginner to advanced.",
+        "announcement": null,
+        "image_url": "assets/images/yoga-a.jpg",
+        "location": "Shanti Yoga Studio",
+        "location_details": {
+            "street": "Jl. Riau No. 12",
+            "city": "Bandung",
+            "province": "West Java",
+            "country": "Indonesia"
+        },
+        "start_date": "2026-05-05T06:30:00Z",
+        "end_date": "2026-05-05T08:30:00Z",
+        "timezone": "Asia/Jakarta",
+        "is_free": true,
+        "is_following": false,
+        "is_hosting": false,
+        "price": 0.0,
+        "participant_capacity": 40,
+        "available_languages": [
+            "Bahasa Indonesia",
+            "English"
+        ]
+    },
+    {
+        "id": 3,
+        "user_id": 12,
+        "category": "event music",
+        "name": "Pestapora Concert",
+        "tagline": "The Ultimate Music Celebration",
+        "description": "An explosive music festival featuring the best Indonesian artists across multiple genres and stages. Experience the energy!",
+        "announcement": "Get ready for three days of pure joy and music! Check out the lineup now!",
+        "image_url": "assets/images/pestapora.jpg",
+        "location": "Gambir Expo Kemayoran",
+        "location_details": {
+            "street": "Arena JIExpo Kemayoran",
+            "city": "Jakarta",
+            "province": "DKI Jakarta",
+            "country": "Indonesia"
+        },
+        "start_date": "2026-07-20T15:00:00Z",
+        "end_date": "2026-07-20T23:59:00Z",
+        "timezone": "Asia/Jakarta",
+        "is_free": false,
+        "is_following": true,
+        "is_hosting": false,
+        "price": 450000.0,
+        "participant_capacity": 30000,
+        "available_languages": [
+            "English",
+            "Bahasa Indonesia"
+        ]
+    },
+    {
+        "id": 4,
+        "user_id": 13,
+        "category": "yoga class",
+        "name": "Beginner Yoga Session",
+        "tagline": "Align Your Mind & Body",
+        "description": "Perfect class for those new to yoga. Learn the core postures, breathing techniques, and relaxation methods.",
+        "announcement": "Yoga mats are provided for all attendees.",
+        "image_url": "assets/images/yoga-b.jpg",
+        "location": "Jakarta Sports Center",
+        "location_details": {
+            "street": "Jl. MH Thamrin No. 8",
+            "city": "Jakarta",
+            "province": "Jakarta",
+            "country": "Indonesia"
+        },
+        "start_date": "2026-05-15T10:00:00Z",
+        "end_date": "2026-05-15T12:00:00Z",
+        "timezone": "Asia/Jakarta",
+        "is_free": true,
+        "is_following": false,
+        "is_hosting": false,
+        "price": 0.0,
+        "participant_capacity": 25,
+        "available_languages": [
+            "Bahasa Indonesia",
+            "English"
+        ]
+    },
+    {
+        "id": 5,
+        "user_id": 14,
+        "category": "member of sport",
+        "name": "Padel Weekend League",
+        "tagline": "Weekend Competitive Play",
+        "description": "Join our weekly weekend padel league. Test your skills in double pairings and move up the leaderboard.",
+        "announcement": "Snacks and drinks are included.",
+        "image_url": "assets/images/padel-assets-e.jpg",
+        "location": "Bali Padel Club",
+        "location_details": {
+            "street": "Jl. Sunset Road No. 99",
+            "city": "Badung",
+            "province": "Bali",
+            "country": "Indonesia"
+        },
+        "start_date": "2026-06-01T08:00:00Z",
+        "end_date": "2026-06-01T14:00:00Z",
+        "timezone": "Asia/Jakarta",
+        "is_free": false,
+        "is_following": false,
+        "is_hosting": true,
+        "price": 75000.0,
+        "participant_capacity": 80,
+        "available_languages": [
+            "English"
+        ]
+    },
+    {
+        "id": 6,
+        "user_id": 15,
+        "category": "experimental learning",
+        "name": "Creative Design Bootcamp",
+        "tagline": "Explore New Ideas",
+        "description": "Discover new design paradigms and ideation methods through hands-on creative workshops and group collaboration activities.",
+        "announcement": "Join us for a journey of discovery and learning!",
+        "image_url": "assets/images/experimental-learning.png",
+        "location": "Google Office Jakarta",
+        "location_details": {
+            "street": "Jalan Sudirman Kav. 52-53",
+            "city": "Jakarta",
+            "province": "DKI Jakarta",
+            "country": "Indonesia"
+        },
+        "start_date": "2026-07-22T13:00:00Z",
+        "end_date": "2026-07-22T18:00:00Z",
+        "timezone": "Asia/Jakarta",
+        "is_free": false,
+        "is_following": true,
+        "is_hosting": false,
+        "price": 300000.0,
+        "participant_capacity": 50,
+        "available_languages": [
+            "English",
+            "Bahasa Indonesia"
+        ]
+    },
+    {
+        "id": 7,
+        "user_id": 16,
+        "category": "member of sport",
+        "name": "Advanced Padel Training",
+        "tagline": "Level Up Your Skills",
+        "description": "Intensive tactical training for advanced padel players focusing on smash placement, wall-bounce play, and defensive positioning.",
+        "announcement": "Pre-requisite: Must have played in a previous league.",
+        "image_url": "assets/images/padel-assets-g.jpg",
+        "location": "Jakarta Elite Padel",
+        "location_details": {
+            "street": "Jl. Gatot Subroto No. 45",
+            "city": "Jakarta",
+            "province": "Jakarta",
+            "country": "Indonesia"
+        },
+        "start_date": "2026-06-18T13:00:00Z",
+        "end_date": "2026-06-18T17:00:00Z",
+        "timezone": "Asia/Jakarta",
+        "is_free": false,
+        "is_following": false,
+        "is_hosting": false,
+        "price": 250000.0,
+        "participant_capacity": 30,
+        "available_languages": [
+            "English"
+        ]
+    },
+    {
+        "id": 8,
+        "user_id": 17,
+        "category": "event",
+        "name": "Community Social Meetup",
+        "tagline": "Play & Connect",
+        "description": "A general networking and social event to connect with other local sport enthusiasts, creators, and professionals.",
+        "announcement": "Bring your friends along! Entry is open to all.",
+        "image_url": "assets/images/padel-assets-h.jpg",
+        "location": "Yogyakarta Padel Space",
+        "location_details": {
+            "street": "Jl. Malioboro No. 25",
+            "city": "Yogyakarta",
+            "province": "Special Region of Yogyakarta",
+            "country": "Indonesia"
+        },
+        "start_date": "2026-05-25T16:00:00Z",
+        "end_date": "2026-05-25T19:00:00Z",
+        "timezone": "Asia/Jakarta",
+        "is_free": true,
+        "is_following": true,
+        "is_hosting": false,
+        "price": 0.0,
+        "participant_capacity": 60,
+        "available_languages": [
+            "Bahasa Indonesia",
+            "English"
+        ]
+    },
+    {
+        "id": 9,
+        "user_id": 18,
+        "category": "member of sport",
+        "name": "Padel Fun Day",
+        "tagline": "Fun Games For Everyone",
+        "description": "Enjoy padel with friendly games, mini tournaments, food stands, and fun activities for the entire family.",
+        "announcement": "Lots of surprise prizes waiting!",
+        "image_url": "assets/images/padel-assets-i.jpg",
+        "location": "Surabaya Sport Complex",
+        "location_details": {
+            "street": "Jl. Raya Darmo No. 88",
+            "city": "Surabaya",
+            "province": "East Java",
+            "country": "Indonesia"
+        },
+        "start_date": "2026-06-25T08:00:00Z",
+        "end_date": "2026-06-25T12:00:00Z",
+        "timezone": "Asia/Jakarta",
+        "is_free": true,
+        "is_following": true,
+        "is_hosting": true,
+        "price": 0.0,
+        "participant_capacity": 150,
+        "available_languages": [
+            "Bahasa Indonesia"
+        ]
+    },
+    {
+        "id": 10,
+        "user_id": 19,
+        "category": "event music",
+        "name": "Festival Musica Strasbourg 2026",
+        "tagline": "Classical Music Festival",
+        "description": "Festival Musica Strasbourg 2026, a world-renowned festival featuring exceptional classical music performances in the heart of Strasbourg, France. Discover breathtaking concerts, renowned orchestras, and talented soloists in historic venues. An unforgettable experience for music lovers.",
+        "announcement": "Join the closing orchestral symphony under the stars.",
+        "image_url": "assets/images/musica.jpg",
+        "location": "Strasbourg France",
+        "location_details": {
+            "street": "Avenue de l'Europe",
+            "city": "Strasbourg",
+            "province": "Grand Est",
+            "country": "France"
+        },
+        "start_date": "2026-06-25T08:00:00Z",
+        "end_date": "2026-06-25T12:00:00Z",
+        "timezone": "Asia/Jakarta",
+        "is_free": false,
+        "is_following": false,
+        "is_hosting": false,
+        "price": 100000.0,
+        "participant_capacity": 150,
+        "available_languages": [
+            "English",
+            "French"
+        ]
+    }
+]

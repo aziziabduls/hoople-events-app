@@ -1,0 +1,113 @@
+[
+    {
+        "id": 1,
+        "user_id": 10,
+        "name": "Padel Championship 2026",
+        "tagline": "Compete with the Best",
+        "description": "Join the biggest padel tournament of the year.",
+        "announcement": null,
+        "image_url": "assets/images/padel-assets-a.jpg",
+        "location": "Jakarta Padel Club",
+        "location_details": {
+            "street": "Jl. Jend. Sudirman No. 1",
+            "city": "Jakarta",
+            "province": "Jakarta",
+            "country": "Indonesia"
+        },
+        "start_date": "2026-06-10T09:00:00Z",
+        "end_date": "2026-06-10T17:00:00Z",
+        "timezone": "Asia/Jakarta",
+        "is_free": false,
+        "is_following": true,
+        "is_hosting": true,
+        "price": 200000,
+        "participant_capacity": 200,
+        "available_languages": [
+            "English",
+            "Bahasa Indonesia"
+        ]
+    },
+    {
+        "id": 2,
+        "user_id": 11,
+        "name": "Morning Yoga Class",
+        "tagline": "Breathe & Stretch",
+        "description": "A relaxing morning yoga session for all levels.",
+        "announcement": null,
+        "image_url": "assets/images/yoga-a.jpg",
+        "location": "Shanti Yoga Studio",
+        "location_details": {
+            "street": "Jl. Riau No. 12",
+            "city": "Bandung",
+            "province": "West Java",
+            "country": "Indonesia"
+        },
+        "start_date": "2026-05-05T06:30:00Z",
+        "end_date": "2026-05-05T08:30:00Z",
+        "timezone": "Asia/Jakarta",
+        "is_free": true,
+        "is_following": false,
+        "is_hosting": false,
+        "price": 0,
+        "participant_capacity": 40,
+        "available_languages": [
+            "Bahasa Indonesia"
+        ]
+    },
+    {
+        "id": 3,
+        "user_id": 12,
+        "name": "Pestapora",
+        "tagline": "The Ultimate Music Celebration",
+        "description": "An explosive music festival featuring the best Indonesian artists across multiple genres and stages.",
+        "announcement": "Get ready for three days of pure joy and music! Check out the lineup now!",
+        "image_url": "assets/images/pestapora.jpg",
+        "location": "Gambir Expo Kemayoran",
+        "location_details": {
+            "street": "Arena JIExpo Kemayoran",
+            "city": "Jakarta",
+            "province": "DKI Jakarta",
+            "country": "Indonesia"
+        },
+        "start_date": "2026-07-20T15:00:00Z",
+        "end_date": "2026-07-20T23:59:00Z",
+        "timezone": "Asia/Jakarta",
+        "is_free": false,
+        "is_following": true,
+        "is_hosting": false,
+        "price": 450000,
+        "participant_capacity": 30000,
+        "available_languages": [
+            "English",
+            "Bahasa Indonesia"
+        ]
+    },
+    {
+        "id": 4,
+        "user_id": 12,
+        "name": "Experimental Learning",
+        "tagline": "Explore new cultures and ideas",
+        "description": "Discover new cultures and ideas through hands-on workshops and activities.",
+        "announcement": "Join us for a journey of discovery and learning!",
+        "image_url": "assets/images/experimental-learning.png",
+        "location": "Google Office Jakarta",
+        "location_details": {
+            "street": "Jalan Sudirman Kav. 52-53, Senayan",
+            "city": "Jakarta",
+            "province": "DKI Jakarta",
+            "country": "Indonesia"
+        },
+        "start_date": "2026-07-20T15:00:00Z",
+        "end_date": "2026-07-20T23:59:00Z",
+        "timezone": "Asia/Jakarta",
+        "is_free": false,
+        "is_following": true,
+        "is_hosting": false,
+        "price": 450000,
+        "participant_capacity": 30000,
+        "available_languages": [
+            "English",
+            "Bahasa Indonesia"
+        ]
+    }
+]

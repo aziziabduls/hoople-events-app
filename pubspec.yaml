@@ -1,0 +1,92 @@
+name: hoople_mobile_app
+description: "Hoople Mobile App is....."
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  # sdk: ^3.12.2
+  sdk: ^3.10.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # icons
+  cupertino_icons: ^1.0.8
+  hugeicons: ^1.1.7
+
+  # fonts
+  google_fonts: ^8.1.0
+
+  # state management
+  provider: ^6.1.5+1
+
+  # router
+  go_router: ^14.2.0
+
+  # storage
+  shared_preferences: ^2.3.2
+
+  # others
+  motor: ^1.1.0
+  figma_squircle: ^0.6.3
+  progressive_blur: ^0.0.2
+  palette_generator: ^0.3.3+7
+  easy_image_viewer: ^1.5.1
+  intl: ^0.20.2
+  url_launcher: ^6.3.0
+  qr_flutter: ^4.1.0
+  chat_bubbles: ^1.9.0
+  image_fade: ^0.6.2
+  extended_image: ^10.0.1
+  gap: ^3.0.1
+
+
+  # material_shapes: ^0.0.2
+  # flutter_m3shapes: ^1.0.0+2
+
+
+  material_shapes:
+    path: packages/material_shapes
+  image_picker: ^1.2.3
+  # material_wavy_progress_indicator:
+  #   path: packages/material_wavy_progress_indicator
+  # expressive_sheet:
+  #   path: packages/expressive_sheet
+  # expressive_loading_indicator:
+  #   path: packages/expressive_loading_indicator
+  # expressive_refresh_indicator:
+  #   path: packages/expressive_refresh_indicator
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/images/avatars/
+    - assets/data/
+    - assets/fonts/
+  fonts:
+    - family: comfortaa
+      fonts:
+        - asset: assets/fonts/Comfortaa-Regular.ttf
+        - asset: assets/fonts/Comfortaa-Light.ttf
+        - asset: assets/fonts/Comfortaa-Bold.ttf
+    - family: opensans
+      fonts:
+        - asset: assets/fonts/OpenSans.ttf
+    - family: sf-pro
+      fonts:
+        - asset: assets/fonts/SF-Pro-Rounded-Regular.otf
+    - family: tropical-magic
+      fonts:
+        - asset: assets/fonts/tropical-magic.otf
+    - family: urbanist
+      fonts:
+        - asset: assets/fonts/Urbanist-Regular.ttf

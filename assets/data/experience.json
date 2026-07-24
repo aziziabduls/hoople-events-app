@@ -1,0 +1,291 @@
+[
+    {
+        "id": "exp_005",
+        "type": "activity",
+        "status": "published",
+        "organizerId": "org_run",
+        "basicInfo": {
+            "title": "Saturday Running Club",
+            "slug": "running-club",
+            "description": "Lari santai 5K setiap Sabtu pagi.",
+            "category": "Sport",
+            "media": {
+                "thumbnail": "run.jpg",
+                "banner": "assets/images/sat_running_club.jpg"
+            },
+            "tags": [
+                "running",
+                "fitness"
+            ]
+        },
+        "location": {
+            "mode": "offline"
+        },
+        "details": {
+            "schedule": null,
+            "agenda": [],
+            "instructor": "Coach Ryan",
+            "recurrence": {
+                "rule": "FREQ=WEEKLY;BYDAY=SA"
+            }
+        },
+        "items": [
+            {
+                "id": "run-session",
+                "type": "session",
+                "name": "Saturday Morning Run",
+                "description": "",
+                "price": 50000,
+                "quota": 50,
+                "available": 34,
+                "schedule": {
+                    "startAt": "2026-08-01T06:00:00+07:00",
+                    "endAt": "2026-08-01T07:30:00+07:00"
+                }
+            }
+        ]
+    },
+    {
+        "id": "exp_001",
+        "type": "event",
+        "status": "published",
+        "organizerId": "org_flutter",
+        "basicInfo": {
+            "title": "Flutter Conference Indonesia 2026",
+            "slug": "flutter-conference-indonesia-2026",
+            "description": "Konferensi Flutter terbesar di Indonesia.",
+            "category": "Technology",
+            "media": {
+                "thumbnail": "flutter.jpg",
+                "banner": "assets/images/FlutterConf2026.png"
+            },
+            "tags": [
+                "flutter",
+                "mobile",
+                "conference"
+            ]
+        },
+        "location": {
+            "mode": "offline",
+            "physical": {
+                "venue": "Jakarta Convention Center",
+                "address": "Jl. Gatot Subroto",
+                "city": "Jakarta",
+                "country": "Indonesia",
+                "coordinates": {
+                    "latitude": -6.218,
+                    "longitude": 106.802
+                }
+            },
+            "virtual": null
+        },
+        "details": {
+            "schedule": {
+                "timezone": "Asia/Jakarta",
+                "startDate": "2026-10-20",
+                "endDate": "2026-10-21"
+            },
+            "agenda": [
+                {
+                    "id": "a1",
+                    "title": "Opening Keynote",
+                    "speaker": "Google Developer Expert",
+                    "startAt": "2026-10-20T09:00:00+07:00",
+                    "endAt": "2026-10-20T10:00:00+07:00"
+                },
+                {
+                    "id": "a2",
+                    "title": "Flutter Conf Intro",
+                    "speaker": "Google Developer Expert",
+                    "startAt": "2026-10-20T10:00:00+07:00",
+                    "endAt": "2026-10-20T14:00:00+07:00"
+                }
+            ],
+            "instructor": null,
+            "recurrence": null
+        },
+        "items": [
+            {
+                "id": "vip",
+                "type": "ticket",
+                "name": "VIP Pass",
+                "description": "Front row",
+                "price": 1200000,
+                "quota": 100,
+                "available": 70,
+                "schedule": null
+            },
+            {
+                "id": "regular",
+                "type": "ticket",
+                "name": "Regular",
+                "description": "",
+                "price": 450000,
+                "quota": 500,
+                "available": 321,
+                "schedule": null
+            }
+        ]
+    },
+    {
+        "id": "exp_002",
+        "type": "activity",
+        "status": "published",
+        "organizerId": "org_yoga",
+        "basicInfo": {
+            "title": "Morning Yoga",
+            "slug": "morning-yoga",
+            "description": "Yoga setiap Senin & Rabu.",
+            "category": "Health",
+            "media": {
+                "thumbnail": "assets/images/yoga-a.jpg",
+                "banner": "assets/images/yoga-a.jpg"
+            },
+            "tags": [
+                "yoga",
+                "fitness"
+            ]
+        },
+        "location": {
+            "mode": "offline",
+            "physical": {
+                "venue": "Zen Studio",
+                "address": "Jl. Senopati",
+                "city": "Jakarta",
+                "country": "Indonesia",
+                "coordinates": {
+                    "latitude": -6.225,
+                    "longitude": 106.808
+                }
+            },
+            "virtual": null
+        },
+        "details": {
+            "schedule": null,
+            "agenda": [],
+            "instructor": "Siti Namaste",
+            "recurrence": {
+                "rule": "FREQ=WEEKLY;BYDAY=MO,WE"
+            }
+        },
+        "items": [
+            {
+                "id": "mon",
+                "type": "session",
+                "name": "Monday Session",
+                "description": "",
+                "price": 75000,
+                "quota": 20,
+                "available": 10,
+                "schedule": {
+                    "startAt": "2026-08-03T07:00:00+07:00",
+                    "endAt": "2026-08-03T08:15:00+07:00"
+                }
+            },
+            {
+                "id": "wed",
+                "type": "session",
+                "name": "Wednesday Session",
+                "description": "",
+                "price": 75000,
+                "quota": 20,
+                "available": 7,
+                "schedule": {
+                    "startAt": "2026-08-05T07:00:00+07:00",
+                    "endAt": "2026-08-05T08:15:00+07:00"
+                }
+            }
+        ]
+    },
+    {
+        "id": "exp_003",
+        "type": "activity",
+        "status": "published",
+        "organizerId": "org_cooking",
+        "basicInfo": {
+            "title": "Italian Cooking Class",
+            "slug": "italian-cooking",
+            "description": "Belajar membuat pasta & pizza.",
+            "category": "Cooking",
+            "media": {
+                "thumbnail": "cook.jpg",
+                "banner": "assets/images/italian_cooking_class.jpg"
+            },
+            "tags": [
+                "cooking",
+                "food"
+            ]
+        },
+        "location": {
+            "mode": "offline"
+        },
+        "details": {
+            "schedule": null,
+            "agenda": [],
+            "instructor": "Chef Marco",
+            "recurrence": {
+                "rule": "FREQ=WEEKLY;BYDAY=SA"
+            }
+        },
+        "items": [
+            {
+                "id": "sat",
+                "type": "session",
+                "name": "Saturday Class",
+                "description": "",
+                "price": 200000,
+                "quota": 15,
+                "available": 9,
+                "schedule": {
+                    "startAt": "2026-08-08T10:00:00+07:00",
+                    "endAt": "2026-08-08T13:00:00+07:00"
+                }
+            }
+        ]
+    },
+    {
+        "id": "exp_004",
+        "type": "event",
+        "status": "published",
+        "organizerId": "org_music",
+        "basicInfo": {
+            "title": "Summer Music Festival",
+            "slug": "summer-music-festival",
+            "description": "Festival musik outdoor.",
+            "category": "Music",
+            "media": {
+                "thumbnail": "music.jpg",
+                "banner": "assets/images/pestapora.jpg"
+            },
+            "tags": [
+                "music",
+                "festival"
+            ]
+        },
+        "location": {
+            "mode": "offline"
+        },
+        "details": {
+            "schedule": {
+                "timezone": "Asia/Jakarta",
+                "startDate": "2026-09-12",
+                "endDate": "2026-09-13"
+            },
+            "agenda": [],
+            "instructor": null,
+            "recurrence": null
+        },
+        "items": [
+            {
+                "id": "festival-ticket",
+                "type": "ticket",
+                "name": "Festival Pass",
+                "description": "",
+                "price": 600000,
+                "quota": 3000,
+                "available": 1820,
+                "schedule": null
+            }
+        ]
+    }
+]

@@ -1,0 +1,137 @@
+[
+  {
+    "id": 1,
+    "user_id": 1,
+    "image_url": "assets/images/padel-assets-a.jpg",
+    "caption": "Enjoying a great day playing padel! 🎾 #padel #sports",
+    "likes": 1200,
+    "comments": 48,
+    "shares": 12
+  },
+  {
+    "id": 2,
+    "user_id": 1,
+    "image_url": "assets/images/padel-assets-b.jpg",
+    "caption": "Morning practice session to start the day right. ☀️💪",
+    "likes": 850,
+    "comments": 32,
+    "shares": 5
+  },
+  {
+    "id": 3,
+    "user_id": 1,
+    "image_url": "assets/images/padel-assets-c.jpg",
+    "caption": "Night matches hit different! The energy is unmatched! 🌌",
+    "likes": 2100,
+    "comments": 128,
+    "shares": 45
+  },
+  {
+    "id": 4,
+    "user_id": 1,
+    "image_url": "assets/images/padel-assets-d.jpg",
+    "caption": "Working on my backhand today. Improvement takes time. 💯",
+    "likes": 920,
+    "comments": 22,
+    "shares": 3
+  },
+  {
+    "id": 5,
+    "user_id": 1,
+    "image_url": "assets/images/padel-assets-e.jpg",
+    "caption": "Weekend vibes at the court with my favorite people! 🏆",
+    "likes": 1500,
+    "comments": 56,
+    "shares": 20
+  },
+  {
+    "id": 6,
+    "user_id": 1,
+    "image_url": "assets/images/padel-assets-f.jpg",
+    "caption": "Just chilling after a sweaty match. Best feeling ever. 💦🥤",
+    "likes": 780,
+    "comments": 15,
+    "shares": 2
+  },
+  {
+    "id": 7,
+    "user_id": 1,
+    "image_url": "assets/images/padel-assets-g.jpg",
+    "caption": "Game, set, match! What a thrilling tournament. 🏅",
+    "likes": 3200,
+    "comments": 210,
+    "shares": 80
+  },
+  {
+    "id": 8,
+    "user_id": 1,
+    "image_url": "assets/images/padel-assets-h.jpg",
+    "caption": "Teaming up for the doubles cup this weekend! Who's coming? 🙌",
+    "likes": 1100,
+    "comments": 40,
+    "shares": 10
+  },
+  {
+    "id": 9,
+    "user_id": 1,
+    "image_url": "assets/images/padel-assets-a.jpg",
+    "caption": "Throwback to one of my best matches last year. Good times! 🕰️",
+    "likes": 1340,
+    "comments": 65,
+    "shares": 18
+  },
+  {
+    "id": 9,
+    "user_id": 1,
+    "image_url": "assets/images/padel-assets-b.jpg",
+    "caption": "Throwback to one of my best matches last year. Good times! 🕰️",
+    "likes": 1340,
+    "comments": 65,
+    "shares": 18
+  },
+  {
+    "id": 9,
+    "user_id": 1,
+    "image_url": "assets/images/padel-assets-c.jpg",
+    "caption": "Throwback to one of my best matches last year. Good times! 🕰️",
+    "likes": 1340,
+    "comments": 65,
+    "shares": 18
+  },
+  {
+    "id": 9,
+    "user_id": 1,
+    "image_url": "assets/images/padel-assets-d.jpg",
+    "caption": "Throwback to one of my best matches last year. Good times! 🕰️",
+    "likes": 1340,
+    "comments": 65,
+    "shares": 18
+  },
+  {
+    "id": 9,
+    "user_id": 1,
+    "image_url": "assets/images/padel-assets-e.jpg",
+    "caption": "Throwback to one of my best matches last year. Good times! 🕰️",
+    "likes": 1340,
+    "comments": 65,
+    "shares": 18
+  },
+  {
+    "id": 9,
+    "user_id": 1,
+    "image_url": "assets/images/padel-assets-f.jpg",
+    "caption": "Throwback to one of my best matches last year. Good times! 🕰️",
+    "likes": 1340,
+    "comments": 65,
+    "shares": 18
+  },
+  {
+    "id": 9,
+    "user_id": 1,
+    "image_url": "assets/images/padel-assets-g.jpg",
+    "caption": "Throwback to one of my best matches last year. Good times! 🕰️",
+    "likes": 1340,
+    "comments": 65,
+    "shares": 18
+  }
+]
