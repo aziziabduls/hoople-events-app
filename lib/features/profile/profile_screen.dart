@@ -579,6 +579,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         faq["q"]!,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
@@ -589,7 +592,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Text(
                             faq["a"]!,
                             style: const TextStyle(
-                              color: Colors.white70,
                               height: 1.4,
                             ),
                           ),
@@ -646,7 +648,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(height: 8),
                     Text(
                       "By using the Hoople application, you agree to comply with our hosting guidelines, payment platform conditions, and community standards. All transactions are final unless specified otherwise by experience hosts.",
-                      style: TextStyle(color: Colors.white70, height: 1.4),
+                      style: TextStyle(
+                        height: 1.4,
+                      ),
                     ),
                     SizedBox(height: 24),
                     Text(
@@ -659,7 +663,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(height: 8),
                     Text(
                       "We value your privacy. Hoople collects basic user info, location preferences, and payment meta information necessary to run and process experience bookings. We do not sell or lease your personal information to third parties.",
-                      style: TextStyle(color: Colors.white70, height: 1.4),
+                      style: TextStyle(
+                        height: 1.4,
+                      ),
                     ),
                   ],
                 ),

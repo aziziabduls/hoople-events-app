@@ -38,6 +38,10 @@ class _ExperienceDetailScreenState extends State<ExperienceDetailScreen> {
   Color? _prominentColor;
   final ScrollController _scrollController = ScrollController();
   late final ImageProvider _imageProvider;
+  DateTime? _selectedDate;
+  late final PageController _pageController;
+  late DateTime _initialMonth;
+  late DateTime _currentMonth;
 
   @override
   void initState() {
@@ -47,11 +51,15 @@ class _ExperienceDetailScreenState extends State<ExperienceDetailScreen> {
         ? AssetImage(widget.experience.basicInfo.media.banner) as ImageProvider
         : FileImage(File(widget.experience.basicInfo.media.banner));
     _loadProminentColor();
+    _initialMonth = DateTime.now();
+    _currentMonth = _initialMonth;
+    _pageController = PageController(initialPage: 500);
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -749,9 +757,242 @@ class _ExperienceDetailScreenState extends State<ExperienceDetailScreen> {
     );
   }
 
+  int _getDaysInMonth(int year, int month) {
+    return DateTime(year, month + 1, 0).day;
+  }
+
+  DateTime _getMonthForIndex(int index) {
+    final monthsDiff = index - 500;
+    return DateTime(_initialMonth.year, _initialMonth.month + monthsDiff, 1);
+  }
+
+  Widget _buildCalendar(Color prominentColor) {
+    final weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                DateFormat('MMMM yyyy').format(_currentMonth),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Row(
+                children: [
+                  if (_selectedDate != null) ...[
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          _selectedDate = null;
+                        });
+                      },
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: Text(
+                        "Clear Filter",
+                        style: TextStyle(
+                          color: prominentColor == MyColor.hooplePurple
+                              ? MyColor.systemTeal
+                              : MyColor.systemYellow,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                  IconButton(
+                    icon: const Icon(Icons.chevron_left, color: Colors.white70),
+                    onPressed: () {
+                      _pageController.previousPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.chevron_right,
+                      color: Colors.white70,
+                    ),
+                    onPressed: () {
+                      _pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: weekdays
+                .map(
+                  (day) => Expanded(
+                    child: Center(
+                      child: Text(
+                        day.substring(0, 1),
+                        style: const TextStyle(
+                          color: Colors.white38,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 290,
+            child: PageView.builder(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  _currentMonth = _getMonthForIndex(index);
+                });
+              },
+              itemBuilder: (context, pageIndex) {
+                final monthDate = _getMonthForIndex(pageIndex);
+                return _buildMonthGrid(monthDate, prominentColor);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMonthGrid(DateTime monthDate, Color prominentColor) {
+    final year = monthDate.year;
+    final month = monthDate.month;
+    final daysInMonth = _getDaysInMonth(year, month);
+    final firstDayOffset =
+        DateTime(year, month, 1).weekday - 1; // 0 for Mon, 6 for Sun
+
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.zero,
+      itemCount: firstDayOffset + daysInMonth,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 7,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+        childAspectRatio: 1.0,
+      ),
+      itemBuilder: (context, index) {
+        if (index < firstDayOffset) {
+          return const SizedBox.shrink();
+        }
+        final day = index - firstDayOffset + 1;
+        final date = DateTime(year, month, day);
+        final isSelected =
+            _selectedDate != null &&
+            _selectedDate!.year == date.year &&
+            _selectedDate!.month == date.month &&
+            _selectedDate!.day == date.day;
+
+        final recurrence = widget.experience.details.recurrence;
+        final dayHasSessions = () {
+          if (recurrence != null && recurrence.day.isNotEmpty) {
+            return recurrence.day.contains(date.weekday);
+          }
+          return widget.experience.items.any(
+            (item) =>
+                item.schedule != null &&
+                item.schedule!.startAt.year == date.year &&
+                item.schedule!.startAt.month == date.month &&
+                item.schedule!.startAt.day == date.day,
+          );
+        }();
+
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {
+            setState(() {
+              if (isSelected) {
+                _selectedDate = null;
+              } else {
+                _selectedDate = date;
+              }
+            });
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isSelected
+                  ? prominentColor
+                  : (dayHasSessions
+                        ? Colors.white.withValues(alpha: 0.1)
+                        : Colors.transparent),
+              border: isSelected
+                  ? Border.all(color: Colors.white24, width: 1)
+                  : null,
+            ),
+            child: Center(
+              child: Text(
+                day.toString(),
+                style: TextStyle(
+                  color: isSelected
+                      ? Colors.white
+                      : (dayHasSessions ? Colors.white : Colors.white24),
+                  fontWeight: (isSelected || dayHasSessions)
+                      ? FontWeight.bold
+                      : FontWeight.normal,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildTicketsSection(Color prominentColor) {
     final items = widget.experience.items;
     final isSession = widget.experience.type == ExperienceType.activity;
+    final hasSchedules = items.any((item) => item.schedule != null);
+
+    final recurrence = widget.experience.details.recurrence;
+    final filteredItems = _selectedDate == null
+        ? items
+        : items.where(
+            (item) {
+              if (item.schedule == null) return false;
+              if (recurrence != null && recurrence.day.isNotEmpty) {
+                return item.schedule!.startAt.weekday == _selectedDate!.weekday;
+              }
+              return item.schedule!.startAt.year == _selectedDate!.year &&
+                  item.schedule!.startAt.month == _selectedDate!.month &&
+                  item.schedule!.startAt.day == _selectedDate!.day;
+            },
+          ).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -766,11 +1007,15 @@ class _ExperienceDetailScreenState extends State<ExperienceDetailScreen> {
           ),
         ),
         const SizedBox(height: 16),
-        if (items.isEmpty)
+        if (hasSchedules) ...[
+          _buildCalendar(prominentColor),
+          const SizedBox(height: 24),
+        ],
+        if (filteredItems.isEmpty)
           const Text(
             "No sessions/tickets currently available.",
             style: TextStyle(
-              color: Colors.white70,
+              color: Colors.grey,
               fontStyle: FontStyle.italic,
             ),
           )
@@ -779,9 +1024,9 @@ class _ExperienceDetailScreenState extends State<ExperienceDetailScreen> {
             shrinkWrap: true,
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: items.length,
+            itemCount: filteredItems.length,
             itemBuilder: (context, index) {
-              final item = items[index];
+              final item = filteredItems[index];
               return Container(
                 margin: const EdgeInsets.only(bottom: 12),
                 padding: const EdgeInsets.all(16),

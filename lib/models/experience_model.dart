@@ -243,10 +243,19 @@ class Agenda {
 
 class Recurrence {
   String rule;
-  Recurrence({required this.rule});
-  factory Recurrence.fromJson(Map<String, dynamic> j) =>
-      Recurrence(rule: j["rule"]);
-  Map<String, dynamic> toJson() => {"rule": rule};
+  List<int> day;
+  Recurrence({
+    required this.rule,
+    this.day = const [],
+  });
+  factory Recurrence.fromJson(Map<String, dynamic> j) => Recurrence(
+        rule: j["rule"],
+        day: List<int>.from(j["day"] ?? []),
+      );
+  Map<String, dynamic> toJson() => {
+        "rule": rule,
+        "day": day,
+      };
 }
 
 class ExperienceItem {
