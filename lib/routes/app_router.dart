@@ -55,6 +55,15 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/experience-detail',
       builder: (context, state) {
+        if (state.extra is Map<String, dynamic>) {
+          final extraMap = state.extra as Map<String, dynamic>;
+          final experience = extraMap['experience'] as Experience;
+          final prominentColor = extraMap['prominentColor'] as Color?;
+          return ExperienceDetailScreen(
+            experience: experience,
+            prominentColor: prominentColor,
+          );
+        }
         final experience = state.extra as Experience;
         return ExperienceDetailScreen(experience: experience);
       },

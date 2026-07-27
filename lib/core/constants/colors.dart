@@ -4,6 +4,7 @@ class MyColor {
   // Hoople's Color Palette
   static Color hooplePurple = hexToColor('#A020F0');
   static Color hoopleCharcoal = hexToColor('#313842');
+  static Color charcoal = hoopleCharcoal;
   static Color lightScaffoldBackgroundColor = hexToColor('#F9F9F9');
   // static Color darkScaffoldBackgroundColor = hexToColor('#2F2E2E');
   static Color darkScaffoldBackgroundColor = Color.fromARGB(255, 30, 29, 29);

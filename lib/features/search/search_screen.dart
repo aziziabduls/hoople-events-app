@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hoople_mobile_app/core/constants/colors.dart';
 import 'package:hoople_mobile_app/core/constants/fonts.dart';
+import 'package:hoople_mobile_app/features/events/detail_screen.dart';
 import 'package:hoople_mobile_app/models/experience_model.dart';
 import 'package:hoople_mobile_app/widgets/styled_back_button.dart';
+import 'package:palette_generator/palette_generator.dart';
 
 class SearchScreen extends StatefulWidget {
   final List<Experience> experiences;
@@ -21,6 +22,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final _searchController = TextEditingController();
   List<Experience> _searchResults = [];
   final List<String> _suggestions = ['Flutter', 'Yoga', 'Cooking'];
+  bool _isNavigating = false;
 
   @override
   void initState() {
@@ -32,6 +34,33 @@ class _SearchScreenState extends State<SearchScreen> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  Future<Color?> getProminentColor(Experience experience) async {
+    try {
+      final imageProvider =
+          experience.basicInfo.media.banner.startsWith('assets/')
+          ? AssetImage(experience.basicInfo.media.banner) as ImageProvider
+          : FileImage(File(experience.basicInfo.media.banner));
+
+      final palette = await PaletteGenerator.fromImageProvider(
+        imageProvider,
+        size: const Size(200, 200),
+      );
+
+      if (palette.dominantColor?.color != null) {
+        return Color.lerp(
+          palette.dominantColor?.color,
+          Colors.black,
+          0.5,
+        );
+      }
+    } catch (_) {
+      // Fallback if image/palette fails
+    }
+    return experience.type == ExperienceType.event
+        ? MyColor.hooplePurple
+        : MyColor.hoopleCharcoal;
   }
 
   void _onSearchChanged() {
@@ -74,6 +103,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0.0,
+        elevation: 0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: StyledBackButton(),
         titleSpacing: 0,
         title: Padding(
@@ -97,12 +129,22 @@ class _SearchScreenState extends State<SearchScreen> {
             },
           ),
         ),
-        elevation: 0,
       ),
-      body: SafeArea(
-        child: _searchController.text.trim().isEmpty
-            ? _buildSuggestionsView(isDark, theme)
-            : _buildResultsView(isDark, theme),
+      body: Stack(
+        children: [
+          SafeArea(
+            child: _searchController.text.trim().isEmpty
+                ? _buildSuggestionsView(isDark, theme)
+                : _buildResultsView(isDark, theme),
+          ),
+          if (_isNavigating)
+            Container(
+              color: Colors.black.withOpacity(0.3),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -172,7 +214,9 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           )
         else
-          ...discoverList.map((exp) => _buildExperienceCard(exp, isDark)),
+          ...discoverList.map(
+            (exp) => _buildExperienceCard(context, exp, isDark),
+          ),
       ],
     );
   }
@@ -215,12 +259,16 @@ class _SearchScreenState extends State<SearchScreen> {
       itemCount: _searchResults.length,
       itemBuilder: (context, index) {
         final exp = _searchResults[index];
-        return _buildExperienceCard(exp, isDark);
+        return _buildExperienceCard(context, exp, isDark);
       },
     );
   }
 
-  Widget _buildExperienceCard(Experience exp, bool isDark) {
+  Widget _buildExperienceCard(
+    BuildContext context,
+    Experience exp,
+    bool isDark,
+  ) {
     final isEvent = exp.type == ExperienceType.event;
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
@@ -236,10 +284,56 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () {
-          context.push('/experience-detail', extra: exp).then((_) {
-            setState(() {});
+        onTap: () async {
+          // if (_isNavigating) return;
+          // setState(() {
+          //   _isNavigating = true;
+          // });
+
+          // try {
+          //   final color = await getProminentColor(exp);
+          //   if (context.mounted) {
+          //     context.push(
+          //       '/experience-detail',
+          //       extra: {
+          //         'experience': exp,
+          //         'prominentColor': color,
+          //       },
+          //     ).then((_) {
+          //       if (mounted) setState(() {});
+          //     });
+          //   }
+          // } finally {
+          //   if (mounted) {
+          //     setState(() {
+          //       _isNavigating = false;
+          //     });
+          //   }
+          // }
+
+          if (_isNavigating) return;
+          setState(() {
+            _isNavigating = true;
           });
+
+          try {
+            if (context.mounted) {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailScreen(
+                    experience: exp,
+                  ),
+                ),
+              );
+            }
+          } finally {
+            if (mounted) {
+              setState(() {
+                _isNavigating = false;
+              });
+            }
+          }
         },
         child: Row(
           children: [

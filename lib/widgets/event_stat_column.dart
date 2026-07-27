@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class EventStatColumn extends StatelessWidget {
   final String label;
   final String value;
+  final Color? textColor;
 
   const EventStatColumn({
     super.key,
     required this.label,
     required this.value,
+    this.textColor,
   });
 
   @override
@@ -22,8 +24,8 @@ class EventStatColumn extends StatelessWidget {
             Text(
               value,
               textAlign: .center,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: textColor ?? Colors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -31,8 +33,8 @@ class EventStatColumn extends StatelessWidget {
             Text(
               label,
               textAlign: .center,
-              style: const TextStyle(
-                color: Colors.white70,
+              style: TextStyle(
+                color: textColor?.withValues(alpha: 0.7) ?? Colors.white70,
                 fontSize: 14,
               ),
             ),

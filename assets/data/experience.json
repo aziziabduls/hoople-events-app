@@ -25,8 +25,12 @@
             "schedule": null,
             "agenda": [],
             "instructor": "Coach Ryan",
+            "instructorAvatar": "assets/images/avatars/Ali Mahdi.jpg",
             "recurrence": {
-                "rule": "FREQ=WEEKLY;BYDAY=SA"
+                "rule": "FREQ=WEEKLY;BYDAY=SA",
+                "day": [
+                    6
+                ]
             }
         },
         "items": [
@@ -164,6 +168,7 @@
             "schedule": null,
             "agenda": [],
             "instructor": "Siti Namaste",
+            "instructorAvatar": "assets/images/avatars/Aliah Lane.jpg",
             "recurrence": {
                 "rule": "FREQ=WEEKLY;BYDAY=MO,WE",
                 "day": [
@@ -227,8 +232,12 @@
             "schedule": null,
             "agenda": [],
             "instructor": "Chef Marco",
+            "instructorAvatar": "assets/images/avatars/Ammar Foley.jpg",
             "recurrence": {
-                "rule": "FREQ=WEEKLY;BYDAY=SA"
+                "rule": "FREQ=WEEKLY;BYDAY=SA",
+                "day": [
+                    6
+                ]
             }
         },
         "items": [

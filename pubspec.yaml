@@ -42,7 +42,8 @@ dependencies:
   image_fade: ^0.6.2
   extended_image: ^10.0.1
   gap: ^3.0.1
-
+  cached_network_image: ^3.4.1
+  material_color_utilities: ^0.11.1
 
   # material_shapes: ^0.0.2
   # flutter_m3shapes: ^1.0.0+2

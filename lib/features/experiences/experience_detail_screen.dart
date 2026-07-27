@@ -18,6 +18,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ExperienceDetailScreen extends StatefulWidget {
   final Experience experience;
+  final Color? prominentColor;
   final bool isPreview;
   final VoidCallback? onPublish;
   final VoidCallback? onShare;
@@ -25,6 +26,7 @@ class ExperienceDetailScreen extends StatefulWidget {
   const ExperienceDetailScreen({
     super.key,
     required this.experience,
+    this.prominentColor,
     this.isPreview = false,
     this.onPublish,
     this.onShare,
@@ -46,11 +48,21 @@ class _ExperienceDetailScreenState extends State<ExperienceDetailScreen> {
   @override
   void initState() {
     super.initState();
+    _prominentColor = widget.prominentColor;
     _imageProvider =
         widget.experience.basicInfo.media.banner.startsWith('assets/')
         ? AssetImage(widget.experience.basicInfo.media.banner) as ImageProvider
         : FileImage(File(widget.experience.basicInfo.media.banner));
-    _loadProminentColor();
+    
+    if (_prominentColor == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Future.delayed(const Duration(milliseconds: 375), () {
+          if (mounted) {
+            _loadProminentColor();
+          }
+        });
+      });
+    }
     _initialMonth = DateTime.now();
     _currentMonth = _initialMonth;
     _pageController = PageController(initialPage: 500);
@@ -76,6 +88,7 @@ class _ExperienceDetailScreenState extends State<ExperienceDetailScreen> {
           Colors.black,
           0.5,
         );
+        print(palette);
         if (mounted) setState(() {});
       }
     } catch (_) {
@@ -195,11 +208,7 @@ class _ExperienceDetailScreenState extends State<ExperienceDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final prominentColor =
-        _prominentColor ??
-        (widget.experience.type == ExperienceType.event
-            ? MyColor.hooplePurple
-            : MyColor.hoopleCharcoal);
+    final prominentColor = _prominentColor ?? MyColor.hoopleCharcoal;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -356,7 +365,7 @@ class _ExperienceDetailScreenState extends State<ExperienceDetailScreen> {
       }
     } else {
       // Activity
-      icon = Icons.loop_rounded;
+      icon = Icons.local_activity;
       final rec = experience.details.recurrence?.rule;
       if (rec != null) {
         if (rec.contains("BYDAY=MO,WE")) {
@@ -371,7 +380,7 @@ class _ExperienceDetailScreenState extends State<ExperienceDetailScreen> {
       }
 
       if (experience.details.instructor != null) {
-        secondaryText = "Instructor: ${experience.details.instructor}";
+        secondaryText = "Led by ${experience.details.instructor}";
       } else {
         secondaryText = "Self-guided Activity";
       }
@@ -380,15 +389,34 @@ class _ExperienceDetailScreenState extends State<ExperienceDetailScreen> {
     return Row(
       children: [
         Container(
-          padding: const EdgeInsets.all(12),
+          width: 48,
+          height: 48,
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(14),
+            color: Colors.white.withValues(alpha: 0.1),
+            image:
+                experience.details.instructorAvatar != null &&
+                    experience.details.instructorAvatar!.isNotEmpty
+                ? DecorationImage(
+                    image:
+                        experience.details.instructorAvatar!.startsWith(
+                          'assets/',
+                        )
+                        ? AssetImage(experience.details.instructorAvatar!)
+                              as ImageProvider
+                        : FileImage(File(experience.details.instructorAvatar!)),
+                    fit: BoxFit.cover,
+                  )
+                : null,
           ),
-          child: Icon(
-            icon,
-            color: Colors.white,
-          ),
+          child:
+              (experience.details.instructorAvatar == null ||
+                  experience.details.instructorAvatar!.isEmpty)
+              ? Icon(
+                  icon,
+                  color: Colors.white,
+                )
+              : null,
         ),
         const SizedBox(width: 16),
         Expanded(
@@ -757,6 +785,10 @@ class _ExperienceDetailScreenState extends State<ExperienceDetailScreen> {
     );
   }
 
+  DateTime _toWallClock(DateTime dt) {
+    return dt.toUtc().add(const Duration(hours: 7));
+  }
+
   int _getDaysInMonth(int year, int month) {
     return DateTime(year, month + 1, 0).day;
   }
@@ -923,11 +955,13 @@ class _ExperienceDetailScreenState extends State<ExperienceDetailScreen> {
             return recurrence.day.contains(date.weekday);
           }
           return widget.experience.items.any(
-            (item) =>
-                item.schedule != null &&
-                item.schedule!.startAt.year == date.year &&
-                item.schedule!.startAt.month == date.month &&
-                item.schedule!.startAt.day == date.day,
+            (item) {
+              if (item.schedule == null) return false;
+              final wallClock = _toWallClock(item.schedule!.startAt);
+              return wallClock.year == date.year &&
+                  wallClock.month == date.month &&
+                  wallClock.day == date.day;
+            },
           );
         }();
 
@@ -985,12 +1019,13 @@ class _ExperienceDetailScreenState extends State<ExperienceDetailScreen> {
         : items.where(
             (item) {
               if (item.schedule == null) return false;
+              final wallClock = _toWallClock(item.schedule!.startAt);
               if (recurrence != null && recurrence.day.isNotEmpty) {
-                return item.schedule!.startAt.weekday == _selectedDate!.weekday;
+                return wallClock.weekday == _selectedDate!.weekday;
               }
-              return item.schedule!.startAt.year == _selectedDate!.year &&
-                  item.schedule!.startAt.month == _selectedDate!.month &&
-                  item.schedule!.startAt.day == _selectedDate!.day;
+              return wallClock.year == _selectedDate!.year &&
+                  wallClock.month == _selectedDate!.month &&
+                  wallClock.day == _selectedDate!.day;
             },
           ).toList();
 
@@ -1066,41 +1101,41 @@ class _ExperienceDetailScreenState extends State<ExperienceDetailScreen> {
                           if (item.schedule != null) ...[
                             Row(
                               children: [
-                                if (item.schedule != null) ...[
-                                  Icon(
-                                    Icons.access_time,
-                                    size: 14,
+                                Icon(
+                                  Icons.access_time,
+                                  size: 14,
+                                  color: Colors.white60,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  DateFormat(
+                                    'h:mm a',
+                                  ).format(
+                                    _toWallClock(item.schedule!.startAt),
+                                  ),
+                                  style: const TextStyle(
                                     color: Colors.white60,
+                                    fontSize: 12,
                                   ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    DateFormat(
-                                      'h:mm a',
-                                    ).format(item.schedule!.startAt),
-                                    style: const TextStyle(
-                                      color: Colors.white60,
-                                      fontSize: 12,
-                                    ),
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'to',
+                                  style: const TextStyle(
+                                    color: Colors.white60,
+                                    fontSize: 12,
                                   ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    'to',
-                                    style: const TextStyle(
-                                      color: Colors.white60,
-                                      fontSize: 12,
-                                    ),
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  DateFormat(
+                                    'h:mm a',
+                                  ).format(_toWallClock(item.schedule!.endAt)),
+                                  style: const TextStyle(
+                                    color: Colors.white60,
+                                    fontSize: 12,
                                   ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    DateFormat(
-                                      'h:mm a',
-                                    ).format(item.schedule!.endAt),
-                                    style: const TextStyle(
-                                      color: Colors.white60,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ],
                             ),
                           ],

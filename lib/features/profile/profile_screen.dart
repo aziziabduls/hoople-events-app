@@ -31,9 +31,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    Widget buildPlaceholderFallback() {
+      return SizedBox(
+        height: 200,
+        width: 200,
+        child: ClipPath(
+          clipper: ShapeBorderClipper(
+            shape: MaterialShapeBorder(
+              shape: MaterialShapes.clover8Leaf,
+            ),
+          ),
+          child: Container(
+            color: Colors.grey[300],
+            width: 200,
+            height: 200,
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0.0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: StyledBackButton(),
+
         // actions: [
         //   IconButton(
         //     onPressed: () {
@@ -83,32 +106,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           shape: MaterialShapes.pill,
                         ),
                       ),
-                      child: Image.network(
-                        MyImages.placeholder,
-                        width: 200,
-                        height: 200,
-                        loadingBuilder: (context, chunk, loadingProgress) {
-                          return chunk;
-                        },
-                        errorBuilder: (context, error, stackTrace) {
-                          return SizedBox(
-                            height: 200,
-                            width: 200,
-                            child: ClipPath(
-                              clipper: ShapeBorderClipper(
-                                shape: MaterialShapeBorder(
-                                  shape: MaterialShapes.clover8Leaf,
-                                ),
-                              ),
-                              child: Container(
-                                color: Colors.grey[300],
-                                width: 200,
-                                height: 200,
-                              ),
+                      child: MyImages.placeholder.contains('http')
+                          ? Image.network(
+                              MyImages.placeholder,
+                              width: 200,
+                              height: 200,
+                              fit: BoxFit.cover,
+                              loadingBuilder:
+                                  (context, chunk, loadingProgress) {
+                                    return chunk;
+                                  },
+                              errorBuilder: (context, error, stackTrace) {
+                                return buildPlaceholderFallback();
+                              },
+                            )
+                          : Image.asset(
+                              MyImages.placeholder,
+                              width: 200,
+                              height: 200,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return buildPlaceholderFallback();
+                              },
                             ),
-                          );
-                        },
-                      ),
                     ),
                   ),
                 ),

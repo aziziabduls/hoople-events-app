@@ -62,6 +62,7 @@ class _ExperienceFormScreenState extends State<ExperienceFormScreen> {
 
   // Activity Specific Fields
   final _instructorController = TextEditingController();
+  final _instructorAvatarController = TextEditingController();
   String _recurrenceFreq = 'WEEKLY';
   final List<String> _selectedRecurrenceDays = ['MO', 'WE'];
 
@@ -107,6 +108,7 @@ class _ExperienceFormScreenState extends State<ExperienceFormScreen> {
     _countryController.dispose();
     _virtualUrlController.dispose();
     _instructorController.dispose();
+    _instructorAvatarController.dispose();
     _customTagController.dispose();
     for (var item in _items) {
       item.dispose();
@@ -150,6 +152,20 @@ class _ExperienceFormScreenState extends State<ExperienceFormScreen> {
     }
   }
 
+  Future<void> _pickAvatarFromGallery() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        setState(() {
+          _instructorAvatarController.text = image.path;
+        });
+      }
+    } catch (e) {
+      debugPrint("Error picking avatar image: $e");
+    }
+  }
+
   Future<void> _selectDate(bool isStart) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -163,7 +179,7 @@ class _ExperienceFormScreenState extends State<ExperienceFormScreen> {
               primary: MyColor.hooplePurple,
               onPrimary: Colors.white,
               surface: Theme.of(context).scaffoldBackgroundColor,
-              onSurface: Colors.white,
+              onSurface: Theme.of(context).textTheme.bodyLarge!.color!,
             ),
           ),
           child: child!,
@@ -182,7 +198,7 @@ class _ExperienceFormScreenState extends State<ExperienceFormScreen> {
                 primary: MyColor.hooplePurple,
                 onPrimary: Colors.white,
                 surface: Theme.of(context).scaffoldBackgroundColor,
-                onSurface: Colors.white,
+                onSurface: Theme.of(context).textTheme.bodyLarge!.color!,
               ),
             ),
             child: child!,
@@ -233,8 +249,21 @@ class _ExperienceFormScreenState extends State<ExperienceFormScreen> {
     Recurrence? recurrence;
     if (_experienceType == ExperienceType.activity) {
       final days = _selectedRecurrenceDays.join(',');
+      final dayMap = {
+        'MO': 1,
+        'TU': 2,
+        'WE': 3,
+        'TH': 4,
+        'FR': 5,
+        'SA': 6,
+        'SU': 7,
+      };
+      final dayIntList = _selectedRecurrenceDays
+          .map((code) => dayMap[code]!)
+          .toList();
       recurrence = Recurrence(
         rule: "FREQ=$_recurrenceFreq;BYDAY=$days",
+        day: dayIntList,
       );
     }
 
@@ -253,6 +282,9 @@ class _ExperienceFormScreenState extends State<ExperienceFormScreen> {
       agenda: [],
       instructor: _instructorController.text.isNotEmpty
           ? _instructorController.text
+          : null,
+      instructorAvatar: _instructorAvatarController.text.isNotEmpty
+          ? _instructorAvatarController.text
           : null,
       recurrence: recurrence,
     );
@@ -298,6 +330,64 @@ class _ExperienceFormScreenState extends State<ExperienceFormScreen> {
     );
   }
 
+  Future<DateTime?> _selectItemDate(
+    BuildContext context,
+    DateTime? initialDate,
+  ) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: initialDate ?? DateTime.now().add(const Duration(days: 1)),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.dark(
+              primary: MyColor.hooplePurple,
+              onPrimary: Colors.white,
+              surface: Theme.of(context).scaffoldBackgroundColor,
+              onSurface: Theme.of(context).textTheme.bodyLarge!.color!,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null) {
+      if (!context.mounted) return null;
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: initialDate != null
+            ? TimeOfDay.fromDateTime(initialDate)
+            : const TimeOfDay(hour: 9, minute: 0),
+        builder: (context, child) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: ColorScheme.dark(
+                primary: MyColor.hooplePurple,
+                onPrimary: Colors.white,
+                surface: Theme.of(context).scaffoldBackgroundColor,
+                onSurface: Theme.of(context).textTheme.bodyLarge!.color!,
+              ),
+            ),
+            child: child!,
+          );
+        },
+      );
+
+      if (pickedTime != null) {
+        return DateTime(
+          picked.year,
+          picked.month,
+          picked.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+      }
+    }
+    return null;
+  }
+
   void _navigateToPreview() {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -321,6 +411,29 @@ class _ExperienceFormScreenState extends State<ExperienceFormScreen> {
           ),
         );
         return;
+      }
+    } else if (_experienceType == ExperienceType.activity) {
+      for (var item in _items) {
+        if (item.startDate == null || item.endDate == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                "Please select start and end times for all sessions.",
+              ),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+          return;
+        }
+        if (item.endDate!.isBefore(item.startDate!)) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Session end time must be after start time."),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+          return;
+        }
       }
     }
 
@@ -360,6 +473,8 @@ class _ExperienceFormScreenState extends State<ExperienceFormScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0.0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: const Text(
           "Create Experience",
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -674,6 +789,7 @@ class _ExperienceFormScreenState extends State<ExperienceFormScreen> {
     int maxLines = 1,
     TextInputType keyboardType = TextInputType.text,
     String? Function(String?)? validator,
+    Widget? suffixIcon,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Column(
@@ -699,6 +815,7 @@ class _ExperienceFormScreenState extends State<ExperienceFormScreen> {
             hintStyle: TextStyle(
               color: isDark ? Colors.white30 : Colors.black38,
             ),
+            suffixIcon: suffixIcon,
             filled: true,
             fillColor: isDark
                 ? Colors.white.withValues(alpha: 0.05)
@@ -955,6 +1072,89 @@ class _ExperienceFormScreenState extends State<ExperienceFormScreen> {
         ),
         const SizedBox(height: 16),
         Text(
+          "Instructor Avatar",
+          style: TextStyle(
+            color: isDark ? Colors.white70 : Colors.black87,
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Container(
+              width: 72,
+              height: 72,
+              decoration: BoxDecoration(
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.05)
+                    : Colors.black.withValues(alpha: 0.04),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: isDark ? Colors.white10 : Colors.black12,
+                ),
+                image: _instructorAvatarController.text.isNotEmpty
+                    ? DecorationImage(
+                        image:
+                            _instructorAvatarController.text.startsWith(
+                              'assets/',
+                            )
+                            ? AssetImage(_instructorAvatarController.text)
+                                  as ImageProvider
+                            : FileImage(File(_instructorAvatarController.text)),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
+              ),
+              child: _instructorAvatarController.text.isEmpty
+                  ? Icon(
+                      Icons.person_rounded,
+                      color: isDark ? Colors.white30 : Colors.black38,
+                      size: 32,
+                    )
+                  : null,
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: _pickAvatarFromGallery,
+                    icon: const Icon(Icons.upload_rounded, size: 18),
+                    label: const Text("Upload Photo"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: MyColor.hooplePurple,
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                    ),
+                  ),
+                  if (_instructorAvatarController.text.isNotEmpty) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      _instructorAvatarController.text.split('/').last,
+                      style: TextStyle(
+                        color: isDark ? Colors.white30 : Colors.black38,
+                        fontSize: 11,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Text(
           "Recurrence Frequence",
           style: TextStyle(
             color: isDark ? Colors.white70 : Colors.black87,
@@ -1151,6 +1351,130 @@ class _ExperienceFormScreenState extends State<ExperienceFormScreen> {
                   ),
                 ],
               ),
+              if (isSession) ...[
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          final picked = await _selectItemDate(
+                            context,
+                            item.startDate,
+                          );
+                          if (picked != null) {
+                            setState(() {
+                              item.startDate = picked;
+                            });
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? Colors.white.withValues(alpha: 0.05)
+                                : Colors.black.withValues(alpha: 0.04),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Start Time",
+                                style: TextStyle(
+                                  color: isDark
+                                      ? Colors.white60
+                                      : Colors.black54,
+                                  fontSize: 10,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                item.startDate != null
+                                    ? DateFormat(
+                                        'd MMM yyyy, h:mm a',
+                                      ).format(item.startDate!)
+                                    : "Select Time",
+                                style: TextStyle(
+                                  color: item.startDate != null
+                                      ? (isDark ? Colors.white : Colors.black87)
+                                      : (isDark
+                                            ? Colors.white30
+                                            : Colors.black38),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          final picked = await _selectItemDate(
+                            context,
+                            item.endDate,
+                          );
+                          if (picked != null) {
+                            setState(() {
+                              item.endDate = picked;
+                            });
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? Colors.white.withValues(alpha: 0.05)
+                                : Colors.black.withValues(alpha: 0.04),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "End Time",
+                                style: TextStyle(
+                                  color: isDark
+                                      ? Colors.white60
+                                      : Colors.black54,
+                                  fontSize: 10,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                item.endDate != null
+                                    ? DateFormat(
+                                        'd MMM yyyy, h:mm a',
+                                      ).format(item.endDate!)
+                                    : "Select Time",
+                                style: TextStyle(
+                                  color: item.endDate != null
+                                      ? (isDark ? Colors.white : Colors.black87)
+                                      : (isDark
+                                            ? Colors.white30
+                                            : Colors.black38),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ],
           ),
         );
@@ -1407,6 +1731,8 @@ class _ItemFormFields {
   final descController = TextEditingController();
   final priceController = TextEditingController();
   final quotaController = TextEditingController();
+  DateTime? startDate;
+  DateTime? endDate;
 
   void dispose() {
     nameController.dispose();

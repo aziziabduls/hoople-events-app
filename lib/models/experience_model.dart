@@ -171,11 +171,13 @@ class ExperienceDetails {
   Schedule? schedule;
   List<Agenda> agenda;
   String? instructor;
+  String? instructorAvatar;
   Recurrence? recurrence;
   ExperienceDetails({
     this.schedule,
     this.agenda = const [],
     this.instructor,
+    this.instructorAvatar,
     this.recurrence,
   });
   factory ExperienceDetails.fromJson(Map<String, dynamic> j) =>
@@ -187,6 +189,7 @@ class ExperienceDetails {
             .map((e) => Agenda.fromJson(e))
             .toList(),
         instructor: j["instructor"],
+        instructorAvatar: j["instructorAvatar"],
         recurrence: j["recurrence"] == null
             ? null
             : Recurrence.fromJson(j["recurrence"]),
@@ -195,6 +198,7 @@ class ExperienceDetails {
     "schedule": schedule?.toJson(),
     "agenda": agenda.map((e) => e.toJson()).toList(),
     "instructor": instructor,
+    "instructorAvatar": instructorAvatar,
     "recurrence": recurrence?.toJson(),
   };
 }
@@ -249,13 +253,13 @@ class Recurrence {
     this.day = const [],
   });
   factory Recurrence.fromJson(Map<String, dynamic> j) => Recurrence(
-        rule: j["rule"],
-        day: List<int>.from(j["day"] ?? []),
-      );
+    rule: j["rule"],
+    day: List<int>.from(j["day"] ?? []),
+  );
   Map<String, dynamic> toJson() => {
-        "rule": rule,
-        "day": day,
-      };
+    "rule": rule,
+    "day": day,
+  };
 }
 
 class ExperienceItem {
